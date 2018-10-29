@@ -9,7 +9,7 @@ def opt_path(currentCity, currentMonth):
     if optimal[currentMonth] is None:
         optimal[currentMonth] = city_names[lastCities.index(lowestCost)]
         path_costs[currentMonth] = present_costs
-    elif path_costs[currentMonth] < lowestCost:
+    elif path_costs[currentMonth] > lowestCost:
         optimal[currentMonth] = city_names[lastCities.index(lowestCost)]
         path_costs[currentMonth] = lowestCost
     return lowestCost + present_costs
