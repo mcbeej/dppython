@@ -58,7 +58,7 @@ def opt_path_dp(cities, months):
                 min_cost_2 = min(M[i][j-1], M[i-1][j-1] + fixed_costs[i][i-1], M[i-2][j-1] + fixed_costs[i][i-2])
                 min_cost_2 += paths[i][j]
                 M[i][j] = min_cost_2
-#
+# Commented the following lines out from last commit
 # <<<<<<< HEAD
     for c, m in enumerate(M):
         M[c] = m[1:]
