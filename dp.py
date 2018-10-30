@@ -34,15 +34,18 @@ print (path_costs)
 
 
 def opt_path_dp(cities, months):
-    M = [[0 for i in range(len(months[0]))] for j in range(len(cities))]
 
-    M[0][1] = paths[0][1]
-    M[1][1] = paths[1][1]
-    M[2][1] = paths[2][1]
+    # Initialize matrix
+    M = [[0 for j in range(len(months[0]))] for i in range(len(cities))]
 
-    for j in range(2, len(paths[0])):
-        for i in range(len(city_names)):
-            # add in base case here: if j == 0, return 0
+    # Initialize first column (starting costs from each city)
+    M[0][1] = months[0][1]
+    M[1][1] = months[1][1]
+    M[2][1] = months[2][1]
+
+    # Populate cells column-major
+    for j in range(2, len(months[0])):
+        for i in range(len(cities)):
             if i == 0:
                 min_cost_0 = min(M[i][j-1], M[i+1][j-1] + fixed_costs[i][i+1], M[i+2][j-1] + fixed_costs[i][i+2])
                 min_cost_0 += paths[i][j]
@@ -57,7 +60,9 @@ def opt_path_dp(cities, months):
                 M[i][j] = min_cost_2
 
     print(M)
-    min_cost = min(M[0][12], M[1][12], M[2][12])
+    num_months = len(months[0]) - 1
+    min_cost = min(M[0][num_months], M[1][num_months], M[2][num_months])
+
     return min_cost
 
 
