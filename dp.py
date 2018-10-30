@@ -56,11 +56,23 @@ def opt_path_dp(cities, months):
                 min_cost_2 += paths[i][j]
                 M[i][j] = min_cost_2
 
-    print(M)
-    min_cost = min(M[0][12], M[1][12], M[2][12])
-    return min_cost
+    for c, m in enumerate(M):
+        M[c] = m[1:]
 
+    min_cost = min(M[0][11], M[1][11], M[2][11])
+    mc_loc = [M[0][11], M[1][11], M[2][11]].index(min_cost)
+    trace = city_names[mc_loc]
+    for m, cost in reversed(list(enumerate(M[0][:-1]))):
+        temp_arr = [M[0][m] + fixed_costs[0][mc_loc],
+                    M[1][m] + fixed_costs[1][mc_loc],
+                    M[2][m] + fixed_costs[2][mc_loc]]
+        temp_min = min(temp_arr)
+        mc_loc = temp_arr.index(temp_min)
+        trace = city_names[mc_loc] + " " + trace
 
-print(opt_path_dp(city_names, paths))
+    return min_cost, trace
+
+ans = opt_path_dp(city_names, paths)
+print(ans[0], "\n", ans[1])
 
 # TODO: traceback
