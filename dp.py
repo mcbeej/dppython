@@ -31,3 +31,36 @@ path_costs = [None for i in range((len(paths[0])))]
 print (opt_path(2, 12))
 print (optimal)
 print (path_costs)
+
+
+def opt_path_dp(cities, months):
+    M = [[0 for i in range(len(months[0]))] for j in range(len(cities))]
+
+    M[0][1] = paths[0][1]
+    M[1][1] = paths[1][1]
+    M[2][1] = paths[2][1]
+
+    for j in range(2, len(paths[0])):
+        for i in range(len(city_names)):
+            # add in base case here: if j == 0, return 0
+            if i == 0:
+                min_cost_0 = min(M[i][j-1], M[i+1][j-1] + fixed_costs[i][i+1], M[i+2][j-1] + fixed_costs[i][i+2])
+                min_cost_0 += paths[i][j]
+                M[i][j] = min_cost_0
+            elif i == 1:
+                min_cost_1 = min(M[i][j-1], M[i-1][j-1] + fixed_costs[i][i-1], M[i+1][j-1] + fixed_costs[i][i+1])
+                min_cost_1 += paths[i][j]
+                M[i][j] = min_cost_1
+            elif i == 2:
+                min_cost_2 = min(M[i][j-1], M[i-1][j-1] + fixed_costs[i][i-1], M[i-2][j-1] + fixed_costs[i][i-2])
+                min_cost_2 += paths[i][j]
+                M[i][j] = min_cost_2
+
+    print(M)
+    min_cost = min(M[0][12], M[1][12], M[2][12])
+    return min_cost
+
+
+print(opt_path_dp(city_names, paths))
+
+# TODO: traceback
