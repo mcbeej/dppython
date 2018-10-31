@@ -1,12 +1,3 @@
-paths = []
-
-paths.append([0, 8, 3, 10, 43, 15, 48, 5, 40, 20, 30, 28, 24])
-paths.append([0, 18, 1, 35, 18, 10, 19, 18, 10, 8, 5, 8, 20])
-paths.append([0, 40, 5, 8, 13, 21, 12, 4, 27, 25, 10, 5, 15])
-fixed_costs = [[0, 20, 15],
-                   [20, 0, 10],
-                   [15, 10, 0]]
-
 def opt_path(currentCity, currentMonth):
     """ Recursive function that returns the lowest cost from city k at month i"""
 
@@ -83,6 +74,7 @@ def opt_path_dp(cities, months, fixed_costs):
 def main():
     city_names = []
     paths = []
+    fixed_costs = []
     additional_city = raw_input("New city name: [Enter N when done] ")
     while additional_city != "N" and additional_city != "n":
         city_path = raw_input("Enter month-by-month cost for city (use spaces): ")
