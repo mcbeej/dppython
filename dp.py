@@ -1,4 +1,6 @@
 def opt_path(currentCity, currentMonth):
+    """ Recursive function that returns the lowest cost from city k at month i"""
+
     if currentMonth == 0:
         return 0
     present_costs = paths[currentCity][currentMonth]
@@ -6,12 +8,12 @@ def opt_path(currentCity, currentMonth):
                         opt_path(1, currentMonth - 1) + fixed_costs[1][currentCity],
                         opt_path(2, currentMonth - 1) + fixed_costs[2][currentCity]})
     lowestCost = min(lastCities)
-    if optimal[currentMonth] is None:
-        optimal[currentMonth] = city_names[lastCities.index(lowestCost)]
-        path_costs[currentMonth] = present_costs
-    elif path_costs[currentMonth] > lowestCost:
-        optimal[currentMonth] = city_names[lastCities.index(lowestCost)]
-        path_costs[currentMonth] = lowestCost
+    # if optimal[currentMonth] is None:
+    #     optimal[currentMonth] = city_names[lastCities.index(lowestCost)]
+    #     path_costs[currentMonth] = present_costs
+    # elif path_costs[currentMonth] > lowestCost:
+    #     optimal[currentMonth] = city_names[lastCities.index(lowestCost)]
+    #     path_costs[currentMonth] = lowestCost
     return lowestCost + present_costs
 
 
@@ -22,18 +24,20 @@ paths.append([0, 18, 1, 35, 18, 10, 19, 18, 10, 8, 5, 8, 20])
 paths.append([0, 40, 5, 8, 13, 21, 12, 4, 27, 25, 10, 5, 15])
 
 fixed_costs = [[0, 20, 15],
-                [20, 0, 10],
+               [20, 0, 10],
                [15, 10, 0]]
 
 optimal = [None for i in range(len(paths[0]))]
 path_costs = [None for i in range((len(paths[0])))]
 
-print (opt_path(2, 12))
-print (optimal)
-print (path_costs)
+# print(opt_path(2, 12))
+# print(optimal)
+# print(path_costs)
 
 
 def opt_path_dp(cities, months):
+    """ DP function that takes in cities, months
+        and returns the lowest cost/optimal path """
 
     # Initialize matrix
     M = [[0 for j in range(len(months[0]))] for i in range(len(cities))]
@@ -58,17 +62,10 @@ def opt_path_dp(cities, months):
                 min_cost_2 = min(M[i][j-1], M[i-1][j-1] + fixed_costs[i][i-1], M[i-2][j-1] + fixed_costs[i][i-2])
                 min_cost_2 += paths[i][j]
                 M[i][j] = min_cost_2
-# Commented the following lines out from last commit
-# <<<<<<< HEAD
+
+    # Traceback
     for c, m in enumerate(M):
         M[c] = m[1:]
-# =======
-#     print(M)
-#     num_months = len(months[0]) - 1
-#     min_cost = min(M[0][num_months], M[1][num_months], M[2][num_months])
-#
-#     return min_cost
-# >>>>>>> 48792ea2213563cf5f3a0b6242db884dd30ca13c
 
     min_cost = min(M[0][11], M[1][11], M[2][11])
     mc_loc = [M[0][11], M[1][11], M[2][11]].index(min_cost)
@@ -83,7 +80,7 @@ def opt_path_dp(cities, months):
 
     return min_cost, trace
 
+
 ans = opt_path_dp(city_names, paths)
 print(ans[0], "\n", ans[1])
 
-# TODO: traceback
